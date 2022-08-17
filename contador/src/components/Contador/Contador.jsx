@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { Button } from '../Button/Button'
 import './Contador.css'
 
-export const Contador = () => {
-
-  const [count, setCount] = useState(0)
+export const Contador = ({ count, setCount }) => {
 
   const incrementar = () => {
     setCount(count + 1)
@@ -20,20 +19,16 @@ export const Contador = () => {
   return (
     <div className='contador-container'>
       <div>
-        <button className='operacion-btn' onClick={decrementar}>
-          -
-        </button>
+        <Button texto={'-'} operacion handleClick={decrementar} />
         <span>
           {count}
         </span>
-        <button className='operacion-btn' onClick={incrementar}>
-          +
-        </button>
+        <Button texto={'+'} operacion handleClick={incrementar} />
       </div>
       <div>
-        <button className='reset-btn' onClick={reset}>
-          Reset
-        </button>
+        <Button texto={'Reset'} operacion={false}
+          handleClick={reset}
+          disabled={(count !== 0) ? false : true} />
       </div>
     </div>
   )
