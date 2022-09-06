@@ -21,6 +21,9 @@ import HomeIcon from '@mui/icons-material/Home';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 import { Link } from 'react-router-dom';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import { ThemeContext } from '../../theme/theme';
 
 export default function Navigation({ children }) {
     const theme = useTheme();
@@ -34,10 +37,13 @@ export default function Navigation({ children }) {
         setOpen(false);
     };
 
+    const [themeColor, setThemeColor] = React.useContext(ThemeContext);
+
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
+            <AppBar position="fixed" open={open} 
+            sx={ themeColor.status && {backgroundColor: themeColor.dark.color} }>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -130,6 +136,29 @@ export default function Navigation({ children }) {
                                 <ListItemText primary={'Contacto'} sx={{ opacity: open ? 1 : 0 }} />
                             </ListItemButton>
                         </Link>
+                    </ListItem>
+                    <ListItem disablePadding sx={{ display: 'block' }}>
+                            <ListItemButton
+                                sx={{
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                                onClick={() => setThemeColor({ ...themeColor, status: !themeColor.status })}
+                            >
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    {
+                                        true ? <LightModeIcon /> : <DarkModeIcon />
+                                    }
+                                </ListItemIcon>
+                                <ListItemText primary={'Modo oscuro'} sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
                     </ListItem>
                 </List>
             </Drawer>

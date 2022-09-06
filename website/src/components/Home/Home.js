@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { ThemeContext } from '../../theme/theme';
 
 export const Home = () => {
+  const [theme, setTheme] = useContext(ThemeContext);
   return (
-    <div>Home</div>
+    <div style={theme.status ? {color: 'red'} : {color: 'blue'}}>Home</div>
   )
 }
