@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
+import { reducer } from '../../reducers/contador'
 import { Cartel } from '../Cartel/Cartel'
 import { Contador } from '../Contador/Contador'
 import ContadorClass from '../ContadorClass/ContadorClass'
@@ -6,11 +7,12 @@ import './Main.css'
 
 export const Main = () => {
 
-    let initialState = (JSON.parse(localStorage.getItem('count'))).count
-    const [count, setCount] = useState(initialState)
+    let initialState = 0
+    // const [count, setCount] = useState(initialState)
+    const [count, dispatch] = useReducer(reducer, initialState);
 
     useEffect(() => {
-        localStorage.setItem('count', JSON.stringify({ count: count }))
+        // localStorage.setItem('count', JSON.stringify({ count: count }))
     }, [])
 
 
@@ -18,7 +20,7 @@ export const Main = () => {
         <div className='container'>
             <div className='maqueta'>
                 <Cartel count={count} />
-                <Contador count={count} setCount={setCount} />
+                <Contador count={count} dispatch={dispatch} />
             </div>
         </div>
     )

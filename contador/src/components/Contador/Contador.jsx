@@ -3,7 +3,7 @@ import { getColor } from '../../shared/getColor'
 import { Button } from '../Button/Button'
 import './Contador.css'
 
-export const Contador = ({ count, setCount }) => {
+export const Contador = ({ count, dispatch }) => {
 
   const textoContador = useRef()
 
@@ -16,15 +16,18 @@ export const Contador = ({ count, setCount }) => {
 
 
   const incrementar = () => {
-    setCount(count + 1)
+    // setCount(count + 1)
+    dispatch({ type: 'increment' })
   }
 
   const decrementar = () => {
-    setCount(count - 1)
+    // setCount(count - 1)
+    dispatch({ type: 'decrement' })
   }
 
   const reset = () => {
-    setCount(0)
+    // setCount(0)
+    dispatch({ type: 'reset', reset: 20 })
   }
 
   return (
