@@ -12,6 +12,9 @@ class ColorRoutes{
         this.router.use(express.json());
         this.router.get('/', colorController.getColores);
         this.router.post('/', colorController.newColor);
+        this.router.get('/:id', colorController.getOneColor);
+        this.router.delete('/:id', colorController.deleteColor);
+        // this.router.put('/', colorController.updateColor);
 
     }
 }

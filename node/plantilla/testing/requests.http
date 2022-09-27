@@ -6,9 +6,27 @@ GET http://localhost:3000/color HTTP/1.1
 
 ###
 
+GET http://localhost:3000/color/1 HTTP/1.1
+
+###
+
 POST http://localhost:3000/color HTTP/1.1
 content-type: application/json
 
 {
     "color": "rojo"
 }
+
+###
+
+PUT http://localhost:3000/color HTTP/1.1
+content-type: application/json
+
+{
+    "id": 3,
+    "color": "color editado"
+}
+
+###
+
+DELETE http://localhost:3000/color/2 HTTP/1.1

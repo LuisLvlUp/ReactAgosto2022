@@ -35,6 +35,9 @@ class ColorRoutes {
         this.router.use(express_1.default.json());
         this.router.get('/', color_1.colorController.getColores);
         this.router.post('/', color_1.colorController.newColor);
+        this.router.get('/:id', color_1.colorController.getOneColor);
+        this.router.delete('/:id', color_1.colorController.deleteColor);
+        // this.router.put('/', colorController.updateColor);
     }
 }
 const colorRoutes = new ColorRoutes();
