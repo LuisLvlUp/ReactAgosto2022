@@ -1,9 +1,21 @@
 .butaca{
     width: 100px;
     height: 100px;
-    background-color: orange;
     margin: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+}
+
+.libre{
+    background-color: orange;
+}
+
+.bloqueado{
+    background-color: red;
+}
+
+.seleccionado{
+    background-color: greenyellow;
 }

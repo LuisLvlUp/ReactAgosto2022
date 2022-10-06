@@ -1,15 +1,13 @@
-import { Grid } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react'
+import { Button, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react'
 import { salas } from '../../shared/salas';
-import { ThemeContext } from '../../theme/theme';
 import './SalaCine.css'
 
 
 export const SalaCine = () => {
-  // const [theme, setTheme] = useContext(ThemeContext);
 
   let idPelicula = 1
-  let idHorario = 2
+  let idHorario = 1
 
 
   let filas = 5
@@ -23,9 +21,9 @@ export const SalaCine = () => {
     // no seleccionado = 0
     // seleccionado = 1
     // ocupado = 2
-    let id = { indice1 } + "" + { indice2 }
-    let seleccionados = butacasSeleccionadas.filter((butaca) => butaca == id)
-    let ocupados = butacasOcupadas.filter((butaca) => butaca == id)
+    let id = `${indice1}${indice2}`
+    let seleccionados = butacasSeleccionadas.filter((butaca) => butaca === id)
+    let ocupados = butacasOcupadas.filter((butaca) => butaca === id)
 
     if (seleccionados.length > 0) {
       return 1
@@ -36,44 +34,60 @@ export const SalaCine = () => {
     }
   }
 
+  const seleccionar = (indice1, indice2) => {
+    let id = `${indice1}${indice2}`
+    let isSelected = butacasSeleccionadas.filter((butaca) => butaca === id)[0]
+
+    if (isSelected) {
+      setButacasSeleccionadas(butacasSeleccionadas.filter((butaca) => butaca !== id))
+    } else {
+      setButacasSeleccionadas([...butacasSeleccionadas, id])
+    }
+  }
+
+  const reservar = () => {
+    setButacasOcupadas([...butacasOcupadas, ...butacasSeleccionadas])
+    setButacasSeleccionadas([])
+    alert("Reserva exitosa")
+  }
+
   useEffect(() => {
     let horarioTmp = salas.filter((pelicula) => pelicula.idPelicula === idPelicula)[0]
       .horarios.filter((horario) => horario.idHorario === idHorario)[0]
 
     if (horarioTmp) {
-      setButacasOcupadas(horarioTmp)
+      setButacasOcupadas(horarioTmp.asientosOcupados)
     }
-
-    console.log(butacas)
-
   }, [])
 
   return (
     <Grid container
       rowSpacing={1}
-      columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+      columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+      alignItems="center"
+      justifyContent="center"
+      marginTop={'15px'}>
       {
         butacas.map((filas, indice) => {
           return (
-            <Grid container flexDirection={"row"} xs={12}
-              sx={{
-                marginLeft: "20px"
-              }}>
+            <Grid key={indice} container flexDirection={"row"}
+              alignItems="center"
+              justifyContent="center">
               {
                 filas.map((celda, indice2) => {
-                  return <Grid item>
+                  return <Grid key={indice2} item >
                     {
                       getButaca(indice, indice2) === 0 ?
-                        <div className='butaca'>
+                        <div className='butaca libre' onClick={() => seleccionar(indice, indice2)}>
                           {indice} ,  {indice2}
                         </div>
                         :
                         getButaca(indice, indice2) === 1 ?
-                          <div className='butacaSelect'>
+                          <div className='butaca seleccionado' onClick={() => seleccionar(indice, indice2)}>
                             {indice} ,  {indice2}
                           </div>
                           :
-                          <div className='butacaBlock'>
+                          <div className='butaca bloqueado'>
                             {indice} ,  {indice2}
                           </div>
                     }
@@ -82,9 +96,12 @@ export const SalaCine = () => {
               }
             </Grid>
           )
-
         })
       }
+      <Button variant="contained" onClick={() => reservar()}
+      sx={
+        {marginTop: '20px'}
+      }>Reservar</Button>
     </Grid>
   )
 }
